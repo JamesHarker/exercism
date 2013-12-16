@@ -1,16 +1,16 @@
 class Bob
 
-  def hey(input)
-    respond_with_answer Speech.new(input)
+  def hey(words)
+    respond_with_answer Speaker.new(words)
   end
 
-  def respond_with_answer(speech)
+  def respond_with_answer(speaker)
     case
-    when speech.shouting?
+    when speaker.shouting?
       "Woah, chill out!"
-    when speech.question?
+    when speaker.question?
       "Sure."
-    when speech.silence?
+    when speaker.mute?
       "Fine. Be that way!"
     else
       "Whatever."
@@ -19,23 +19,23 @@ class Bob
 
 end
 
-class Speech
+class Speaker
 
-  attr_reader :input
-  def initialize(input)
-    @input = input
+  attr_reader :words
+  def initialize(words)
+    @words = words
   end
 
   def shouting?
-    input =~ /[A-Z]/ and input.upcase == input
+    words =~ /[A-Z]/ and words.upcase == words
   end
 
   def question?
-    input[-1, 1] == "?"
+    words.end_with? "?"
   end
 
-  def silence?
-    input =~ /\A\s*\z/
+  def mute?
+    words.strip.empty?
   end
 
 end
